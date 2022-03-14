@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import validator from "validator";
+import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
   {
@@ -34,6 +35,13 @@ const userSchema = new mongoose.Schema(
         }
       }
     },
+    ifVerified: {
+      type: Boolean,
+      default: false
+    },
+    uniqueString: {
+      type: String
+    }
     // avatar: {
     //   type: String,
     //   default: "res/user/61adf0b6ebf4bed8d7eb2dd3/1639401886935-image_picker2365397458419136845.jpg"
@@ -49,6 +57,16 @@ userSchema.methods.toJSON = function () {
   userObject.tokens = undefined;
   return userObject;
 };
+
+//Hash the plain text password before saving
+userSchema.pre("save", async function (next) {
+  const user = this;
+
+  if (user.isModified("password")) {
+    user.password = await bcrypt.hash(user.password, 10);
+  }
+  next();
+});
 
 ///Find User In the database
 userSchema.statics.findByCredentials = async (email, password) => {

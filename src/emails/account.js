@@ -1,19 +1,52 @@
 import sgMail from '@sendgrid/mail'
-const sendgridAPIKey = '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'
+import nodemailer from 'nodemailer'
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-const msg = {
-  to: 'test@example.com', // Change to your recipient
-  from: 'test@example.com', // Change to your verified sender
-  subject: 'Sending with SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+const sendMail = (email, id) =>{
+  let mailTransporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: 'adidasmobileappuit@gmail.com',
+        pass: 'Nghiatrum1!@'
+    }
+  });
+  
+  let mailDetails = {
+    from: 'adidasmobileappuit@gmail.com',
+    to: email,
+    subject: 'Welcom to adidas mobile app',
+    text: 'Node.js testing mail for GeeksforGeeks',
+    html: `Press <a href=http://localhost:3000/auth/verify/${id}> here </a> to verify your email. Thanks`
+  };
+  
+  mailTransporter.sendMail(mailDetails, function(err, data) {
+    if(err) {
+
+        console.log(err);
+    } else {
+        console.log('Email sent successfully');
+    }
+  });
 }
-sgMail
-  .send(msg)
-  .then(() => {
-    console.log('Email sent')
-  })
-  .catch((error) => {
-    console.error(error)
-  }) 
+
+export default sendMail;
+
+
+
+// const sendGridAPIKey = "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"
+
+// sgMail.setApiKey(sendGridAPIKey)
+// const msg = {
+//   to: 'adidasmobileappUIT@gmail.com', // Change to your recipient
+//   from: 'nghiathdev@gmail.com', // Change to your verified sender
+//   subject: 'Sending with SendGrid is Fun',
+//   text: 'and easy to do anywhere, even with Node.js',
+//   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+// }
+// sgMail
+//   .send(msg)
+//   .then(() => {
+//     console.log('Email sent')
+//   })
+//   .catch((error) => {
+//     console.error(error)
+//   }) 
