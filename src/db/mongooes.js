@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const connectDB = async () => {
   try {
     await mongoose.connect(
-      process.env.MONGO_URI,
+      "mongodb+srv://adidas_mobile_app:adidas_mobile_app@adidas-mobile-app.v5idu.mongodb.net/adidas-mobile-app",
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
