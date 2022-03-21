@@ -4,7 +4,6 @@ const router = express.Router();
 import {
   loginUser,
   registerUser,
-  signup,
   verifyEmail,
 //   verityEmail,
 //   loginWithFaceBook,
@@ -16,14 +15,12 @@ import {
 
 router.post("/login", loginUser);
 router.post("/register", registerUser);
-router.post("/signup", signup);
 router.get("/verify/:uniqueString", verifyEmail)
-// router.get("/verifyEmail", verityEmail);
 // router.post("/loginFB", loginWithFaceBook);
 // router.post("/changePass", changePassword);
 // router.post("/sendOTP", sendOTPEmail);
 // router.post("/verifyOTP", verifyOTP);
 // router.post("/changePw", changePw);
-router.post("/logOut", logOut);
+router.patch("/logOut/:id", logOut);
 
 export default router;

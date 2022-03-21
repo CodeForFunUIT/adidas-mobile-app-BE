@@ -2,8 +2,7 @@ import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 
-const userSchema = new mongoose.Schema(
-  {
+const userSchema = new mongoose.Schema({
     fullname: {
       type: String,
       trim: true,
@@ -35,13 +34,17 @@ const userSchema = new mongoose.Schema(
         }
       }
     },
-    ifVerified: {
+    isVerifiedEmail: {
       type: Boolean,
       default: false
     },
     uniqueString: {
       type: String
-    }
+    },
+    isSaveLogin: {
+      type: Boolean,
+      default: true
+    },
     // avatar: {
     //   type: String,
     //   default: "res/user/61adf0b6ebf4bed8d7eb2dd3/1639401886935-image_picker2365397458419136845.jpg"
@@ -54,6 +57,7 @@ const userSchema = new mongoose.Schema(
 userSchema.methods.toJSON = function () {
   const userObject = this.toObject();
   delete userObject.password;
+  delete userObject.uniqueString;
   userObject.tokens = undefined;
   return userObject;
 };
@@ -71,14 +75,20 @@ userSchema.pre("save", async function (next) {
 ///Find User In the database
 userSchema.statics.findByCredentials = async (email, password) => {
   let user = await User.findOne({ email });
-    if (!user) {
-      throw new Error("User does not exist")
+  if (!user) {
+    throw new Error( 'User does not exist')
+  }
+  if(password != null){
+    const isMatchPassword = await bcrypt.compare(password, user.password);
+    if (!isMatchPassword) {
+      throw new Error( 'Password is not correct')
     }
-  if(password!=null){
-  const isMatchPassword = await bcrypt.compare(password, user.password);
-  if (!isMatchPassword) {
-    throw new Error("Password is not correct");
-  }}
+  }else{
+    throw new Error("Please enter your password")
+  }
+  if(user.isVerifiedEmail !== true){
+    throw new Error("Your email haven't verified")
+  }
   return user;
 };
 

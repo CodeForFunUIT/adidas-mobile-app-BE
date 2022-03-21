@@ -99,10 +99,10 @@ export const loginUser = async (req, res) => {
       req.body.email,
       req.body.password,
     );
-    res.send({ user });
+    res.send({user});
   } catch (err) {
-    console.log(err);
-    res.status(400).send(err);
+    console.log(err)
+    res.status(400).send({err: err.stack});
   }
 };
 
@@ -133,7 +133,8 @@ export const registerUser = async (req, res) => {
       fullname: req.body.fullname,
       email: req.body.email,
       password: req.body.password,
-      uniqueString
+      uniqueString,
+      isSaveLogin: true
     });
 
     ///Save User
@@ -150,33 +151,13 @@ export const registerUser = async (req, res) => {
   }
 };
 
-export const signup = async (req, res, next) => {
-  User.findOne({ email: req.body.email }, (err, user) => {
-    // error occur
-    if (err) {
-      return res.status(500).send({ msg: err.message });
-    }
-    // if email is exist into database i.e. email is associated with another user.
-    else if (user) {
-      return res.status(400).send({ msg: 'This email address is already associated with another account.' });
-    }
-    // if user is not exist into database then save the user into database for register account
-    else {
-      // password hashing for save into databse
-      // req.body.password = Bcrypt.hashSync(req.body.password, 10);
-      // create and save user
-      user = new User({ fullname: req.body.fullname, email: req.body.email, password: req.body.password });
-    }
-  });
-};
-
 export const verifyEmail = async (req, res) =>{
   // getting the string
   const {uniqueString } = req.params
 
   const user = await User.findOne({uniqueString: uniqueString})
   if(user){
-    user.ifVerified =true
+    user.isVerifiedEmail = true
     await user.save()
     res.send("verify success")
   }else{
@@ -215,32 +196,13 @@ export const loginWithFaceBook = async (req, res) => {
   }
 };
 
-// export const otpSignup = async (req, res, next) => {
-//   const phoneExist = await User.findOne({ phoneNumber: req.body.phoneNumber });
-//   console.log(phoneExist);
-//   if (phoneExist) {
-//     return res.status(400).send("Phone number already exists !");
-//   } else {
-//     createOtp(req.body, (error, results) => {
-//       if (error) {
-//         return next(error);
-//       }
-//       return res.status(200).send({
-//         message: "Success",
-//         data: results,
-//       });
-//     });
-//   }
-// };
-
 export const logOut = async (req, res) => {
   try {
-    console.log(req.user);
-    req.user.tokens = req.user.tokens.filter((curToken) => {
-      return curToken.token != req.token;
-    });
-
-    await req.user.save();
+    const { id } = req.params
+    const user = await User.findByIdAndUpdate(id, {isSaveLogin: false})
+    // user.isSaveLogin = false;
+    // await user.save()
+    res.send("log out!")
   } catch (err) {
     console.log(err);
     res.status(500).send(err);
