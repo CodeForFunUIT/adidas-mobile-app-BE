@@ -7,4 +7,5 @@ import {
 
 router.get("/getUsers", getAllUser)
 
+
 export default router
