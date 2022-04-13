@@ -55,11 +55,12 @@ const userSchema = new mongoose.Schema({
   }
 );
 userSchema.methods.toJSON = function () {
-  const userObject = this.toObject();
-  delete userObject.password;
-  delete userObject.uniqueString;
-  userObject.tokens = undefined;
-  return userObject;
+  const userObject = this.toObject()
+  delete userObject.password
+  delete userObject.uniqueString
+  delete userObject.avatar
+  userObject.tokens = undefined
+  return userObject
 };
 
 //Hash the plain text password before saving
