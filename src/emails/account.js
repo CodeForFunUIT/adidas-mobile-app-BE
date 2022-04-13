@@ -5,13 +5,13 @@ const sendMail = (email, id) =>{
   let mailTransporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'adidasmobileappuit@gmail.com',
-        pass: 'Nghiatrum1!@'
+        user: process.env.EMAIL_NAME,
+        pass: process.env.EMAIL_PASSWORD
     }
   });
   
   let mailDetails = {
-    from: 'adidasmobileappuit@gmail.com',
+    from: process.env.EMAIL_NAME,
     to: email,
     subject: 'Welcom to adidas mobile app',
     text: 'Node.js testing mail for GeeksforGeeks',

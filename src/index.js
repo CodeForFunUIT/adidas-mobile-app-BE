@@ -5,23 +5,14 @@ import dotenv from "dotenv";
 import authRouter from "./routers/auth_router.js"
 import userRouter from "./routers/user_router.js"
 import uploadRouter from "./routers/upload_router.js"
-import multer from "multer"
 
 const app = express();
 const server = http.createServer(app);
-const upload = multer({
-  dest: 'images'
-})
-app.post('/upload', upload.single('upload'), (req, res) =>{
-  res.send(200)
-})
 app.use(express.json({ limit: "50mb", extended: true }));
 
-dotenv.config({path: '../config/config.env'})
+dotenv.config()
 
 connectDB();
-
-
 
 //#region setup routes
 app.use("/auth", authRouter);
@@ -43,7 +34,7 @@ app.use((req, res, next) => {
     });
   });
   
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT
   server.listen(port, () => {
     console.log(`Server API listening at http://192.168.1.145:${port}`);
   });

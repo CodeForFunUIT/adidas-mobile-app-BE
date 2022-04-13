@@ -7,7 +7,6 @@ import {
 const router = express.Router();
 
 const upload = multer({
-    dest: 'avatars',
     limits: {
         fileSize: 1000000,
     },
@@ -21,7 +20,7 @@ const upload = multer({
 })
 
 
-router.post("/uploadAvatar",upload.single('avatar'), uploadAvatar)
+router.post("/uploadAvatar/:id",upload.single('avatar'), uploadAvatar)
 
 
 export default router

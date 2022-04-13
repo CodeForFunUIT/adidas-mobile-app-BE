@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "dev": "env-cmd -f ./config/config.env nodemon src/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +20,10 @@
     "nodemailer": "^6.7.2",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "request": "^2.88.2",
+    "sharp": "^0.30.3",
     "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0"
   }
 }
