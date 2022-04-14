@@ -47,7 +47,6 @@ const userSchema = new mongoose.Schema({
     },
     avatar: {
       type: Buffer,
-      // default: "res/user/61adf0b6ebf4bed8d7eb2dd3/1639401886935-image_picker2365397458419136845.jpg"
     },
   },
   {

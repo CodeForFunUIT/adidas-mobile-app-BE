@@ -1,11 +1,12 @@
 import User from "../models/user.js";
+
 import sharp from "sharp"
 
 export const uploadAvatar = async (req, res) => {
     const { id } = req.params
     const user = await User.findById(id)
     if(!user){
-        return res.status(400).send('something wrong') 
+        return res.status(400).send('User not found') 
     }else{
         const buffer = await sharp(req.file.buffer).resize({
             fit: 'contain',

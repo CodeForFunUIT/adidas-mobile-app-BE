@@ -1,5 +1,4 @@
 import User from "../models/user.js";
-import sharp from "sharp"
 
 export const getAllUser = async (req, res) =>{
     User.find({},(error, data) =>{
