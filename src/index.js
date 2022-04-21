@@ -7,7 +7,10 @@ import userRouter from "./routers/user_router.js"
 import uploadRouter from "./routers/upload_router.js"
 import productRouter from "./routers/product_router.js"
 import imageRouter from "./routers/image_router.js"
+// import socket from "socket.io"
 const app = express();
+// socket.createServer(app)
+
 const server = http.createServer(app);
 app.use(express.json({ limit: "50mb", extended: true }));
 

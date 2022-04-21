@@ -5,4 +5,9 @@ const ProductType = {
     trousers: 4
 }
 
-export { ProductType };
+const UploadDir = {
+    avatar: "avatar",
+    product: "image"
+}
+
+export { ProductType, UploadDir };

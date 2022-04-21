@@ -46,18 +46,24 @@ const userSchema = new mongoose.Schema({
       default: true
     },
     avatar: {
-      type: Buffer,
+      type: String,
     },
   },
   {
     timestamps: true,
   }
 );
+// virual data in User 
+userSchema.virtual('products', {
+  ref: 'Product',
+  localField: '_id',
+  foreignField: 'likedBy'
+})
+
 userSchema.methods.toJSON = function () {
   const userObject = this.toObject()
   delete userObject.password
   delete userObject.uniqueString
-  delete userObject.avatar
   userObject.tokens = undefined
   return userObject
 };
