@@ -14,7 +14,7 @@ export const getAllProduct = async (req, res) =>{
 }
 
 export const uploadProduct = async(req, res) => {
-    const {price, type} = req.body
+    const {price, type, name, introduction} = req.body
     try{
         if(req.file){
             const buffer = await Sharp(req.file.buffer).resize({
@@ -26,7 +26,9 @@ export const uploadProduct = async(req, res) => {
             const newProct = new Product({
                 image: `${UploadDir.product}/${image._id}`,
                 price,
-                type
+                type,
+                name,
+                introduction
               });
             await newProct.save()
             res.status(200).send('upload product success')

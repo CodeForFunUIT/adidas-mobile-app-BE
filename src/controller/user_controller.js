@@ -3,13 +3,29 @@ import Image from "../models/image.js";
 import Sharp from "sharp";
 import { UploadDir } from "../utils/enum.js";
 export const getAllUser = async (req, res) =>{
-    User.find({},(error, data) =>{
-        if(!error){
-            res.send(data)
-        }else{
-            console.log(error)
-        }
-    })
+    const user = await User.find()
+    // {},(error, data) =>{
+    //     if(!error){
+    //         res.send(data)
+    //     }else{
+    //         console.log(error)
+    //     }
+    // }
+    
+    // await user.populate('products').execPopulate()
+    res.send(user)
+    // console.log(user.products)
+}
+
+export const getListFavorites = async (req, res) =>{
+
+    const {id} = req.params;
+
+    const user = await User.findById(id).populate('products').exec()
+    if(!user){
+        throw new Error('user not found')
+    }
+    res.send(user.products)
 }
 
 export const getAvatar = async (req, res) =>{

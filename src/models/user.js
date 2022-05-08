@@ -51,6 +51,7 @@ const userSchema = new mongoose.Schema({
   },
   {
     timestamps: true,
+    toJSON: {virtuals: true}
   }
 );
 // virual data in User 
