@@ -2,19 +2,23 @@ import Product from "../models/product.js"
 import Image from "../models/image.js"
 import Sharp from "sharp"
 import { ProductType, UploadDir } from "../utils/enum.js"
+import { Category } from "../models/category.js"
 
 export const getAllProduct = async (req, res) =>{
-    Product.find({},(error, data) =>{
-        if(!error){
-            res.send(data)
-        }else{
-            console.log(error)
+    try {
+        const products = await Product.find()
+        .populate({path: 'category', select: ['_id', 'types', 'name']}).exec()
+        if(!products){
+            return res.status(400).send('no data')
         }
-    })
+        res.send(products)        
+    } catch (error) {
+        res.send(error.toString())
+    }
 }
 
 export const uploadProduct = async(req, res) => {
-    const {price, type, name, introduction} = req.body
+    const {price, name, introduction, category} = req.body
     let images = []
     try{
         if(req.files){
@@ -40,9 +44,9 @@ export const uploadProduct = async(req, res) => {
         const newProct = new Product({
             images,
             price,
-            type,
             name,
-            introduction
+            introduction,
+            category,
           });
         await newProct.save()
         return res.send({msg: 'upload image success'})
@@ -83,8 +87,33 @@ export const dislikeProduct = async (req, res) => {
     }
 }
 
-export const getProductByType = async (req, res) => {
+export const buyProduct = async (req, res) =>{
+    try {
+        const {id, size, color} = req.params
+        const product = await Category.findOneAndUpdate({'_id': id, 'quantity.size': Number(size)}, {$inc: {[`quantity.$.${color.toString()}`]: -1}},{new: true}).clone()
+        console.log(product)
+        res.send(product)
+    } catch (error) {
+        res.status(400).send(error.toString())
+    }
+}
 
+export const getProductByCategoryId = async (req, res) => {
+    try {   
+        const {id} = req.params
+        // let product ;
+
+        const product = await Product.find({category: id})
+
+        // .populate({path: 'category', select: ['_id', 'types']}).exec()
+        
+        if(!product){
+            return res.status(400).send('no data')
+        }       
+        res.send(product)   
+    } catch (error) {
+        res.status(400).send(error.toString())
+    }
 }
 
 export const getSneakerProducts = async (req, res) => {

@@ -9,6 +9,8 @@ import {
     getTrouserProducts,
     likeProduct,
     uploadProduct,
+    getProductByCategoryId,
+    buyProduct,
 } from "../controller/product_controller.js"
 import { getImage } from "../controller/image_controller.js";
 
@@ -22,6 +24,8 @@ router.get("/getSneakerProducts",getSneakerProducts)
 router.get("/getShirtProducts",getShirtProducts)
 router.get("/getShortProducts",getShortProducts)
 router.get("/getTrouserProducts",getTrouserProducts)
+router.get("/getProductByCategoryId/:id",getProductByCategoryId)
+router.patch("/buyProduct/:id/:size/:color", buyProduct)
 router.patch("/likeProduct/:idProd/:idUser",likeProduct)
 router.patch("/dislikeProduct/:idProd/:idUser", dislikeProduct)
 

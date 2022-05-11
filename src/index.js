@@ -7,6 +7,8 @@ import userRouter from "./routers/user_router.js"
 import uploadRouter from "./routers/upload_router.js"
 import productRouter from "./routers/product_router.js"
 import imageRouter from "./routers/image_router.js"
+import categoryRouter from "./routers/category_router.js"
+
 // import socket from "socket.io"
 const app = express();
 // socket.createServer(app)
@@ -24,6 +26,7 @@ app.use("/user", userRouter)
 app.use("/upload", uploadRouter)
 app.use("/product", productRouter)
 app.use("/image",imageRouter)
+app.use("/category",categoryRouter)
 //#endregion
 
 app.use((req, res, next) => {

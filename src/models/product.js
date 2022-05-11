@@ -1,5 +1,4 @@
 import mongoose from "mongoose"
-import { ProductType } from "../utils/enum.js"
 const productSchema = new mongoose.Schema({
     name: {
       type: String,
@@ -19,11 +18,9 @@ const productSchema = new mongoose.Schema({
           }
         }
     },
-    type: {
-      type: Number,
-      enum: Object.keys(ProductType).map((value) => {
-        return ProductType[value];
-      }),
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
       required: true
     },
     favorites: {
