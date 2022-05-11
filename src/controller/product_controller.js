@@ -15,28 +15,40 @@ export const getAllProduct = async (req, res) =>{
 
 export const uploadProduct = async(req, res) => {
     const {price, type, name, introduction} = req.body
+    let images = []
     try{
-        if(req.file){
-            const buffer = await Sharp(req.file.buffer).resize({
-                fit: 'contain',
-                width: 400,
-                height: 400
-            }).png().toBuffer()
-            const image = await new Image({ data: buffer }).save();
-            const newProct = new Product({
-                image: `${UploadDir.product}/${image._id}`,
-                price,
-                type,
-                name,
-                introduction
-              });
-            await newProct.save()
-            res.status(200).send('upload product success')
-        }else{
-            res.status(400).send({msg: 'please upload image'})
+        if(req.files){
+            const list = images.concat(
+                await Promise.all(
+                    req.files.map(async (e) => {
+                    const buffer = await Sharp(e.buffer).resize({
+                        fit: 'contain',
+                        width: 400,
+                        height: 400
+                    }).png().toBuffer()
+                    const image = await new Image({ data: buffer }).save();
+                  return `${UploadDir.product}/${image._id}`;
+                })
+              )
+            )
+            images = [...list]
         }
+        else{
+            return res.status(400).send({msg: 'please upload image'})
+        }
+        
+        const newProct = new Product({
+            images,
+            price,
+            type,
+            name,
+            introduction
+          });
+        await newProct.save()
+        return res.send({msg: 'upload image success'})
+
     }catch(e){
-        res.status(400).send(e)
+        res.status(400).send(e.toString())
     }
 }
 

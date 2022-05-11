@@ -17,7 +17,7 @@ const router = express.Router();
 
 router.get("/getProducts",getAllProduct)
 router.get("/image/:id", getImage)
-router.post("/uploadProduct", upload.single('image'), uploadProduct)
+router.post("/uploadProduct", upload.array('images', 12), uploadProduct)
 router.get("/getSneakerProducts",getSneakerProducts)
 router.get("/getShirtProducts",getShirtProducts)
 router.get("/getShortProducts",getShortProducts)

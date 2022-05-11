@@ -7,9 +7,9 @@ const productSchema = new mongoose.Schema({
     introduction: {
       type: String,
     },
-    image: {
+    images: [{
       type: String,
-    },
+    }],
     price: {
         type: Number,
         required: true,
@@ -30,10 +30,6 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    likedBy: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    }]
   },
   {
     timestamps: true,
