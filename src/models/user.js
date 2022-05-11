@@ -61,6 +61,12 @@ userSchema.virtual('products', {
   foreignField: 'likedBy'
 })
 
+userSchema.virtual('address', {
+  ref: 'Address',
+  localField: '_id',
+  foreignField: 'idUser'
+})
+
 userSchema.methods.toJSON = function () {
   const userObject = this.toObject()
   delete userObject.password

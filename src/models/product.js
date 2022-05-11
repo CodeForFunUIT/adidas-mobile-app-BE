@@ -1,6 +1,5 @@
 import mongoose from "mongoose"
 import { ProductType } from "../utils/enum.js"
-import validator from "validator"
 const productSchema = new mongoose.Schema({
     name: {
       type: String,
