@@ -9,6 +9,8 @@ import {
     addUserAddress,
     getUserAddress,
     updateUserAddress,
+    updateInforUser,
+    getUserById,
 } from "../controller/user_controller.js"
 import upload from "../middleware/upload_middleware.js";
 
@@ -20,4 +22,6 @@ router.get("/getListFavorites/:id",getListFavorites)
 router.post("/addUserAddress/:id",addUserAddress)
 router.get("/getUserAddress/:id",getUserAddress)
 router.patch("/updateUserAddress/:id",updateUserAddress)
+router.patch("/updateUserInfor/:id",updateInforUser)
+router.get("/getUserById/:id", getUserById)
 export default router

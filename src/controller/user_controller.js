@@ -18,6 +18,22 @@ export const getAllUser = async (req, res) =>{
     // console.log(user.products)
 }
 
+export const updateInforUser = async (req, res) =>{
+    try {
+        const body = req.body
+        const {id} = req.params
+        const user = await User.findByIdAndUpdate(id,{$set: {fullname: body.fullName, dateOfBirth: Date(body.dateOfBirth)}}, {new: true}).exec()
+        if(user){
+            return res.send(user)
+        }
+        res.status(400).send("no user found")
+        
+    
+    } catch (error) {
+        res.send(error.toString())        
+    }
+}
+
 export const getListFavorites = async (req, res) =>{
 
     const {id} = req.params;
@@ -111,3 +127,16 @@ export const updateUserAddress = async (req, res) => {
         res.status(400).send(error.toString())    
     }   
 }
+
+
+export const getUserById = async (req, res) =>{
+    try {
+      const {id} = req.params
+      const user = await User.findById(id)
+      if(user){
+        return res.send(user)
+      }
+    } catch (error) {
+      res.status(400).send("user not found")
+    }
+  }

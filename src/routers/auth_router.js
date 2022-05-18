@@ -11,6 +11,7 @@ import {
 //   sendOTPEmail,
 //   changePw,
   logOut,
+  checkEmail,
 } from "../controller/auth_controller.js";
 
 router.post("/login", loginUser);
@@ -22,5 +23,7 @@ router.get("/verify/:uniqueString", verifyEmail)
 // router.post("/verifyOTP", verifyOTP);
 // router.post("/changePw", changePw);
 router.patch("/logOut/:id", logOut);
+router.get("/checkEmail/:id",checkEmail)
+
 
 export default router;

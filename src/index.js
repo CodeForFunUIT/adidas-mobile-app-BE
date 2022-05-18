@@ -42,8 +42,8 @@ app.use((req, res, next) => {
       detail: error.message,
     });
   });
-  
+  // 172.16.2.112
   const port = process.env.PORT
   server.listen(port, () => {
-    console.log(`Server API listening at http://192.168.1.145:${port}`);
+    console.log(`Server API listening at http://10.45.148.90:${port}`);
   });

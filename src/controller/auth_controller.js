@@ -106,6 +106,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
+
 // register user
 export const registerUser = async (req, res) => {
   ///checking if email existed
@@ -208,3 +209,16 @@ export const logOut = async (req, res) => {
     res.status(500).send(err);
   }
 };
+
+export const checkEmail = async (req, res) =>{
+  try {
+    const {id} = req.params
+    const user = await User.findById(id)
+    if(user.isVerifiedEmail){
+      return res.send(true)
+    }
+    return res.status(400).send(false)
+  } catch (error) {
+    res.status(400).send(error.toString())
+  }
+}
