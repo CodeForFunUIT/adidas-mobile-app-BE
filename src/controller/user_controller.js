@@ -22,7 +22,8 @@ export const updateInforUser = async (req, res) =>{
     try {
         const body = req.body
         const {id} = req.params
-        const user = await User.findByIdAndUpdate(id,{$set: {fullname: body.fullName, dateOfBirth: Date(body.dateOfBirth)}}, {new: true}).exec()
+        const date = new Date(body.dateOfBirth)
+        const user = await User.findByIdAndUpdate(id,{$set: {fullname: body.fullName, dateOfBirth: date}}, {new: true}).exec()
         if(user){
             return res.send(user)
         }

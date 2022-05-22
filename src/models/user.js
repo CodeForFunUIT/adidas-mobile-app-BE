@@ -50,6 +50,7 @@ const userSchema = new mongoose.Schema({
     },
     dateOfBirth: {
       type: Date,
+      default: '2018-01-01'
     }
   },
   {
