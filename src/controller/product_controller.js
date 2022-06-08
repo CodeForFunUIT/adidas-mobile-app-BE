@@ -31,7 +31,7 @@ export const uploadProduct = async(req, res) => {
                         height: 400
                     }).png().toBuffer()
                     const image = await new Image({ data: buffer }).save();
-                  return `${UploadDir.product}/${image._id}`;
+                  return `https://adidas-mobile-app.herokuapp.com/"${UploadDir.product}/${image._id}`;
                 })
               )
             )
