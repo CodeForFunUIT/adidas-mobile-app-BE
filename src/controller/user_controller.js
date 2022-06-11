@@ -39,12 +39,24 @@ export const getListFavorites = async (req, res) =>{
 
     const {id} = req.params;
 
-    const user = await User.findById(id).populate({path: 'products', select: ['image', 'name', 'price', 'introduction']}).exec()
+    const user = await User.findById(id).populate({path: 'listFav'}).exec()
     if(!user){
         throw new Error('user not found')
     }
 
-    res.send(user.products)
+    res.send(user.listFav)
+}
+
+export const getListBag = async (req, res) =>{
+
+    const {id} = req.params;
+
+    const user = await User.findById(id).populate({path: 'listBag'}).exec()
+    if(!user){
+        throw new Error('user not found')
+    }
+
+    res.send(user.listBag)
 }
 
 export const getAvatar = async (req, res) =>{

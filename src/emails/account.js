@@ -1,12 +1,13 @@
-import sgMail from '@sendgrid/mail'
 import nodemailer from 'nodemailer'
 
 const sendMail = (email, id) =>{
   let mailTransporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: process.env.EMAIL_NAME,
-        pass: process.env.EMAIL_PASSWORD
+        // user: process.env.EMAIL_NAME,
+        // pass: process.env.EMAIL_PASSWORD
+        user: 'adidasmobileappuit@gmail.com',
+        pass: 'fosuaivjqbvlfsis',
     }
   });
   
@@ -15,7 +16,7 @@ const sendMail = (email, id) =>{
     to: email,
     subject: 'Welcom to adidas mobile app',
     text: 'Node.js testing mail for GeeksforGeeks',
-    html: `Press <a href=http://localhost:3000/auth/verify/${id}> here </a> to verify your email. Thanks`
+    html: `Press <a href=https://adidas-mobile-app.herokuapp.com/auth/verify/${id}> here </a> to verify your email. Thanks`
   };
   
   mailTransporter.sendMail(mailDetails, function(err, data) {

@@ -3,6 +3,7 @@ import Image from "../models/image.js"
 import Sharp from "sharp"
 import { ProductType, UploadDir } from "../utils/enum.js"
 import { Category } from "../models/category.js"
+import User from "../models/user.js"
 
 export const getAllProduct = async (req, res) =>{
     try {
@@ -18,7 +19,7 @@ export const getAllProduct = async (req, res) =>{
 }
 
 export const uploadProduct = async(req, res) => {
-    const {price, name, introduction, category} = req.body
+    const {price, name, introduction, category, tag} = req.body
     let images = []
     try{
         if(req.files){
@@ -44,6 +45,7 @@ export const uploadProduct = async(req, res) => {
         const newProct = new Product({
             images,
             price,
+            tag,
             name,
             introduction,
             category,
@@ -60,10 +62,15 @@ export const likeProduct = async (req, res) => {
     try {
         const {idProd, idUser} = req.params
         const product = await Product.findByIdAndUpdate(idProd
-                    ,{$inc : {'favorites': 1},$addToSet: {'likedBy': idUser}}
+                    ,{$inc : {'favorites': 1},$set: {'isFav': true}}
                     ,{multi: true}).exec()
         if(!product){
             return res.status(400).send({message: "no product found", status: false })
+        }
+
+        const user = await User.findByIdAndUpdate(idUser, {$addToSet: {'listFav': idProd}}).exec()
+        if(!user){
+            return res.status(400).send({message: "no User found", status: aflse})
         }
         res.status(200).send({status: true, message: "like product success"})
     } catch (error) {
@@ -76,16 +83,49 @@ export const dislikeProduct = async (req, res) => {
         const {idProd, idUser} = req.params
 
         const product = await Product.findByIdAndUpdate(idProd
-                    ,{$inc : {'favorites': -1},$pull: {'likedBy': idUser}}
+                    ,{$inc : {'favorites': -1},$set: {'isFav': false}}
                     ).exec()
         if(!product){
             return res.status(400).send({message: "dislike product faile", status: false })
         }
+        const user = await User.findByIdAndUpdate(idUser, {$pull: {'listFav': idProd}}).exec()
+        if(!user){
+            return res.status(400).send({message: "no User found", status: aflse})
+        }
         res.status(200).send({status: true, message: "dislike product success"})
     } catch (error) {
-        res.send(error)
+        res.send(error.toString())
     }
 }
+
+export const addToBag = async (req, res) => {
+    try {
+        const {idProd, idUser} = req.params
+
+        const user = await User.findByIdAndUpdate(idUser, {$addToSet: {'listBag': idProd}}).exec()
+        if(!user){
+            return res.status(400).send({message: "no User found", status: aflse})
+        }
+        res.status(200).send({status: true, message: "add product to bag success"})
+    } catch (error) {
+        res.send("error")
+    }
+}
+
+export const removeFromBag = async (req, res) => {
+    try {
+        const {idProd, idUser} = req.params
+
+        const user = await User.findByIdAndUpdate(idUser, {$pull: {'listBag': idProd}}).exec()
+        if(!user){
+            return res.status(400).send({message: "no User found", status: false})
+        }
+        res.status(200).send({status: true, message: "remove product success"})
+    } catch (error) {
+        res.send(error.toString())
+    }
+}
+
 
 export const buyProduct = async (req, res) =>{
     try {

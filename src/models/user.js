@@ -51,7 +51,19 @@ const userSchema = new mongoose.Schema({
     dateOfBirth: {
       type: Date,
       default: '2018-01-01'
-    }
+    },
+    listFav: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product'
+    },],
+    listBag: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product'
+    },],
+    listAddress: [{
+      type:mongoose.Schema.Types.ObjectId,
+      ref: 'Address',
+    }],
   },
   {
     timestamps: true,

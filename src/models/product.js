@@ -23,10 +23,17 @@ const productSchema = new mongoose.Schema({
       ref: 'Category',
       required: true
     },
+    tag: {
+      type: String,
+    },
     favorites: {
         type: Number,
         default: 0
     },
+    isFav: {
+      type: Boolean,
+      default: false
+  },
   },
   {
     timestamps: true,

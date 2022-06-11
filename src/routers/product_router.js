@@ -11,6 +11,8 @@ import {
     uploadProduct,
     getProductByCategoryId,
     buyProduct,
+    addToBag,
+    removeFromBag,
 } from "../controller/product_controller.js"
 import { getImage } from "../controller/image_controller.js";
 
@@ -28,5 +30,8 @@ router.get("/getProductByCategoryId/:id",getProductByCategoryId)
 router.patch("/buyProduct/:id/:size/:color", buyProduct)
 router.patch("/likeProduct/:idProd/:idUser",likeProduct)
 router.patch("/dislikeProduct/:idProd/:idUser", dislikeProduct)
+
+router.patch("/addToBag/:idProd/:idUser",addToBag)
+router.patch("/removeFromBag/:idProd/:idUser", removeFromBag)
 
 export default router
